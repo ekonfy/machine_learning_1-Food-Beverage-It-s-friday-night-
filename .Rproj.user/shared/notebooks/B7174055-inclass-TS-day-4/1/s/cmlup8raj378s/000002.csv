@@ -1,0 +1,1 @@
+"0","rain_sma3 <- SMA(rain_ts , n = 3)"

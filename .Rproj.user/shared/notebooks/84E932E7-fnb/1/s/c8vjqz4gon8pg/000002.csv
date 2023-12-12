@@ -1,0 +1,1 @@
+"0","fnb_msts <- msts(data = fnb_fin$count_visitor,seasonal.periods = c(13,13*7))"

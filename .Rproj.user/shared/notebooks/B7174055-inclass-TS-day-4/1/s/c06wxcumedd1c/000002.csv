@@ -1,0 +1,4 @@
+"0","birth_ts %>% "
+"0","  autoplot() +"
+"0","  autolayer(birth_forecast$fitted, series = ""Train"") +"
+"0","  autolayer(birth_forecast$mean, series = ""Test"")"

@@ -1,0 +1,2 @@
+"0","fnb <- fnb %>% "
+"0","  mutate(datetime= floor_date(transaction_date, unit =""hour""))"

@@ -1,0 +1,2 @@
+"0","model_tes_msts <- HoltWinters(train_fnb_msts)"
+"2","optimization difficulties: ERROR: ABNORMAL_TERMINATION_IN_LNSRCH"

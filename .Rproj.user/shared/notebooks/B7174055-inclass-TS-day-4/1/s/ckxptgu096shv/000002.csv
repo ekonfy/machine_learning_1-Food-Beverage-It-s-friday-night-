@@ -1,0 +1,4 @@
+"0","sales_ts %>% "
+"0","  autoplot(series = ""Actual"") +"
+"0","  autolayer(sales_stlm_forecast$fitted, series = ""Train"") +"
+"0","  autolayer(sales_stlm_forecast$mean, series = ""Test"")"

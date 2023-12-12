@@ -1,0 +1,2 @@
+"0","rain_forecast <- forecast(rain_ses , h = 20)"
+"0","rain_forecast"

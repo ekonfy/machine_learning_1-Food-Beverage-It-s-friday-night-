@@ -1,0 +1,5 @@
+"0","# case: toko tutup di tanggal 5"
+"0","df_demand %>% "
+"0","  pad() %>% "
+"0","  na.fill(0) %>% "
+"0","  as.data.frame()"

@@ -1,0 +1,8 @@
+"0","# opsional: custom function"
+"0","compare_fitting <- function(x){"
+"0","  lapply(x, function(x) summary(x)[""Training set"", ]) %>% "
+"0","    lapply(., function(x) x %>% t() %>% as.data.frame) %>% "
+"0","    bind_rows() %>% "
+"0","    mutate(model = names(x)) %>%"
+"0","    select(model, everything())"
+"0","}"

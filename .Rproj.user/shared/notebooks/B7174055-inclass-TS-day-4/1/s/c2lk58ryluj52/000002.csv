@@ -1,0 +1,8 @@
+"0","birth_clean %>% "
+"0","  arrange(date) %>% "
+"0","  pad() %>% #karena  pad hanya bisa untuk tipe data date"
+"0","  anyNA()"
+"1","[1]"
+"1"," FALSE"
+"1","
+"

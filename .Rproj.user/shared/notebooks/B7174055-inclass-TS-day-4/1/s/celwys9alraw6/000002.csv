@@ -1,0 +1,2 @@
+"0","(birth_ts - birth_dc$trend - birth_dc$seasonal) %>% "
+"0","  autoplot()"

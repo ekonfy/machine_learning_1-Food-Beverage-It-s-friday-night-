@@ -1,0 +1,2 @@
+"0","sales_auto_f <- forecast(sales_auto, h = 18)"
+"0","sales_sarima1_f <- forecast(sales_sarima1, h = 18)"

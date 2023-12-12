@@ -1,0 +1,4 @@
+"0","fnb_ts %>% "
+"0","  tail(13*7*4) %>% "
+"0","  stl(s.window = ""periodic"") %>% "
+"0","  autoplot() "

@@ -1,0 +1,6 @@
+"0","# analisis seasonal dengan bar plot"
+"0","birth_clean %>% "
+"0","  mutate(seasonal = birth_dc$seasonal) %>% "
+"0","  distinct(month, seasonal) %>% # ambil data yang sama"
+"0","  ggplot(aes(x = month, y = seasonal)) +"
+"0","  geom_col()"

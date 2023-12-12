@@ -1,0 +1,4 @@
+"0","# membuat object ts"
+"0","co2_ts <- ts(data = co2$CO2.emissions..metric.tons.per.capita.,"
+"0","             start = 1970,"
+"0","             frequency = 1)"

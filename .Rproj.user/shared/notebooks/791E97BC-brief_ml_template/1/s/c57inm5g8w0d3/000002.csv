@@ -1,0 +1,5 @@
+"0","fnb_train <- read.csv(""Capstone_ML/data/data-train.csv"")"
+"0",""
+"0","fnb_test <- read.csv(""Capstone_ML/data/data-test.csv"")"
+"0",""
+"0","head(fnb_train)"

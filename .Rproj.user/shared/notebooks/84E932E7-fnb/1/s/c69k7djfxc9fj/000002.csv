@@ -1,0 +1,1 @@
+"0","fnb_ts <- ts(data=fnb_fin$count_visitor,start = c(1,4), frequency = 13)"

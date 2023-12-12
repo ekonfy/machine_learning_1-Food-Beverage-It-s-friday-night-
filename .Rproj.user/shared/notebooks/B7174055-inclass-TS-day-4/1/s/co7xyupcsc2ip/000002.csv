@@ -1,0 +1,2 @@
+"0","air_test <- tail(AirPassengers %>% log(),24)"
+"0","air_train <- head(AirPassengers %>% log(),-24)"

@@ -1,0 +1,5 @@
+"0","# 3 tahun (36 bulan) terakhir untuk test"
+"0","birth_test <- tail(birth_ts, 36)"
+"0",""
+"0","# sisanya untuk train"
+"0","birth_train <- head(birth_ts, -36)"

@@ -1,0 +1,3 @@
+"0","no_ts <- ts(data = no$Nitrous.oxide.emissions..thousand.metric.tons.of.CO2.equivalent.,"
+"0","            start = 1970,"
+"0","            frequency = 1)"

@@ -1,0 +1,4 @@
+"0","fnb_fin <- fnb %>% "
+"0","  mutate(count_visitor = replace_na(count_visitor,0)) %>% "
+"0","  filter(hour(datetime) >=10& hour(datetime) <=22)"
+"0","fnb_fin <- fnb_fin[-c(1:3),]"

@@ -1,0 +1,6 @@
+"0","sales %>% "
+"0","  ggplot(aes(DATE, DAUTONSA)) +"
+"0","  geom_point() +"
+"0","  geom_point(sales %>% filter(MONTH == ""Jan""), "
+"0","             mapping = aes(DATE, DAUTONSA), col = ""blue"") +"
+"0","  geom_line()"

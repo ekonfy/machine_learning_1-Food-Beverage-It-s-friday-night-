@@ -1,0 +1,3 @@
+"0","sales_ts <- ts(data = sales$DAUTONSA,"
+"0","               start = c(2011,1),"
+"0","               frequency = 12)"

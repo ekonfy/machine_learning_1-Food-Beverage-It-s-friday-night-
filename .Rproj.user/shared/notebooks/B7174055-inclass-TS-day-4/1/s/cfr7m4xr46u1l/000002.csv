@@ -1,0 +1,5 @@
+"0","# 1.5 tahun untuk test"
+"0","sales_test <- tail(sales_ts, 18)"
+"0",""
+"0","# 7 tahun untuk train, sisanya"
+"0","sales_train <- head(sales_ts, -18)"

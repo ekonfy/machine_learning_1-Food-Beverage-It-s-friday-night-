@@ -1,0 +1,7 @@
+"0","ggplot(data = birth_clean, aes(x = date, y = births)) +"
+"0","  geom_point() +"
+"0","  geom_point(data = birth_clean %>% "
+"0","               filter(month %in% c(""Jan"", ""Feb"", ""Jul"")),"
+"0","             aes(col = month)) +"
+"0","  geom_line() +"
+"0","  scale_color_manual(values = c(""red"", ""blue"", ""yellow""))"

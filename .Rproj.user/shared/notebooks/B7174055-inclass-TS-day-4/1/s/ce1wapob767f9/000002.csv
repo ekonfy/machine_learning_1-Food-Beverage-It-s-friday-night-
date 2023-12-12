@@ -1,0 +1,6 @@
+"0","tribble(~model, ~ACF, ~PACF,"
+"0","        ""AR(p)"", ""Die Down"", ""Cut off after lag p"","
+"0","        ""MA(q)"", ""Cut off after lag q"", ""Die Down"","
+"0","        ""ARMA(p, q)"", ""Die Down"", ""Die Down"","
+"0","        ""No AR(p) or MA(q)"", ""No spike"", ""No spike"""
+"0","        )"

@@ -1,0 +1,2 @@
+"0","sales_dc <- decompose(sales_ts)"
+"0","plot(sales_dc)"

@@ -1,0 +1,4 @@
+"0","sales_ts %>% "
+"0","  autoplot(series = ""Actual"") +"
+"0","  autolayer(sales_auto_f$mean, series = ""ARIMA(0,1,1)(0,1,0)[12]"") + "
+"0","  autolayer(sales_sarima1_f$mean, series = ""ARIMAkita"")"

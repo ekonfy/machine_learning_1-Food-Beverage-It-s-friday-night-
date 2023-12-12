@@ -1,0 +1,3 @@
+"0","no_train %>% "
+"0","  autoplot(series = ""Actual"") +"
+"0","  autolayer(no_train_diff, series = ""Diff 1"")"

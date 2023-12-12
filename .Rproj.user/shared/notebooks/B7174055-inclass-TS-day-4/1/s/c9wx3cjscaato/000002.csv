@@ -1,0 +1,4 @@
+"0","rain_train %>% "
+"0","  autoplot() +"
+"0","  autolayer(rain_forecast, series = ""forecast"")+"
+"0","  autolayer(rain_test, series = ""test"") "

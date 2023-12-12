@@ -1,0 +1,1 @@
+"0","co2_forecast <- forecast(co2_des, h = 3)"

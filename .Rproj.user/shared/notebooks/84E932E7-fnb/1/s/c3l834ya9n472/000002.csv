@@ -1,0 +1,2 @@
+"0","min_date <- min(fnb$datetime)"
+"0","max_date <- max(fnb$datetime)"

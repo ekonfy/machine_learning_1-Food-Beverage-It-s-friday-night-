@@ -1,0 +1,5 @@
+"0","# 3 tahun terakhir untuk test"
+"0","co2_test <- tail(co2_ts, 3)"
+"0",""
+"0","# 40 tahun untuk train (sisanya)"
+"0","co2_train <- head(co2_ts, -3)"

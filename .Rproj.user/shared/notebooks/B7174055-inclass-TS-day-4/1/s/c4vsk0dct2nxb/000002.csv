@@ -1,0 +1,4 @@
+"0","co2_ts %>% "
+"0","  autoplot(series = ""Actual"") +"
+"0","  autolayer(co2_forecast$mean, series = ""Test"") + "
+"0","  autolayer(co2_forecast$fitted, series = ""Train"")"

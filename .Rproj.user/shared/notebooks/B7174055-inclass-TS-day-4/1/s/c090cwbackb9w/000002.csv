@@ -1,0 +1,2 @@
+"0","(air_decom$x/air_decom$trend/air_decom$seasonal) %>% "
+"0","  autoplot()"

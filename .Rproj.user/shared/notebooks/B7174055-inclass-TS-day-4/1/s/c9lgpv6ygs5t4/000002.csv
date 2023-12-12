@@ -1,0 +1,5 @@
+"0","forecast_list <- list("
+"0","  ""ARIMA(0,1,1)(0,1,0)[12]"" = sales_auto_f,"
+"0","  ""ARIMA kita"" = sales_sarima1_f)"
+"0",""
+"0","compare_forecast(forecast_list, sales_test)"

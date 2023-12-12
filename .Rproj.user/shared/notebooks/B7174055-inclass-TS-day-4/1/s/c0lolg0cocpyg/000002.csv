@@ -1,0 +1,4 @@
+"0","birth_ts <- ts(data = birth_clean$births,"
+"0","               start = 1946,"
+"0","               frequency = 12 #karena kita ingin lihat pola tahunan dengan data bulanan"
+"0","               )"

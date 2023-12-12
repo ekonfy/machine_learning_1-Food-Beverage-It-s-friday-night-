@@ -1,0 +1,420 @@
+---
+title: 'Food & Beverage: “It’s friday night!”'
+author: "Eko Nurfitriyanto"
+date: "6/7/2021"
+output: 
+ html_document:
+   toc: true
+   toc_float: true
+   highlight: zenburn
+   df_print: paged
+   theme: flatly
+---
+
+```{r setup, include=FALSE}
+
+# chunk options
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  comment = "#>"
+)
+
+options(scipen = 999)
+```
+
+
+
+# 1.Analysis Objective and Setup Libraries
+
+## 1.1 Objective
+
+Tujuan dalam proyek ini adalah untuk mengeksplorasi data transaksi FnB dari 1 Desember 2017 hingga 18 Februari 2018. 
+Tantangan dari proyek ini adalah untuk memperkirakan jumlah pengunjung per jam, yang akan dievaluasi pada 7 hari ke depan [Senin, 19 Desember 2017 sampai Minggu, 25 Desember 2017].
+
+## 1.2 Import Library
+```{r warning=FALSE, message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(padr)
+library(tseries)
+library(TSstudio)
+library(zoo) 
+library(fpp) 
+library(forecast) 
+library(TTR) 
+library(MLmetrics)
+library(readxl)
+
+```
+Load library yang akan dibutuhkan dalam proyek ini. 
+
+
+# 2. Data Preprocess
+
+## 2.1 Load Dataset 
+```{r}
+fnb <- read.csv("data/data-train.csv")
+head(fnb)
+```
+**The dataset includes information about**:
+
+- transaction_date: The timestamp of a transaction
+- receipt_number: The ID of a transaction
+- item_id: The ID of an item in a transaction
+- item_group: The group ID of an item in a transaction
+- item_major_group: The major-group ID of an item in a transaction
+- quantity: The quantity of purchased item
+- price_usd: The price of purchased item
+- total_usd: The total price of purchased item
+- payment_type: The payment method
+- sales_type: The sales method
+
+```{r}
+glimpse(fnb)
+
+```
+
+```{r}
+summary(fnb)
+
+anyNA(fnb)
+```
+## 2.2 Agrigate Dataset
+
+Setelah kita cek data FnB diatas, kita akan rubah atau ringkas/ mutate  transaction_date sebagai data **date** dan dijadikan sebagai jam/ **hour**. Dan tipe data yang tidak sesuai dan kolom baru sebagai count_visitor
+
+Kita rubah transaction_date menjadi **date** : 
+
+```{r}
+
+fnb$transaction_date <- ymd_hms(fnb$transaction_date)
+```
+
+rubah dijadikan menjadikan sebagai jam/**hour**
+```{r}
+fnb <- fnb %>% 
+  mutate(datetime= floor_date(transaction_date, unit ="hour"))
+```
+
+DISTINCT digunakan untuk memastikan tidak ada dua baris data atau lebih yang menampilkan nilai yang sama dari receipt_number:
+```{r}
+fnb <- fnb %>% 
+  group_by(datetime) %>% 
+  summarise(count_visitor = n_distinct(receipt_number))
+```
+
+
+
+Untuk memastikan tidak ada waktu yang hilang dalam data kita, mari lakukan time series padding, membulatkan tanggal/jam dan interval awal, akhir untuk padding 
+
+```{r}
+min_date <- min(fnb$datetime)
+max_date <- max(fnb$datetime)
+```
+
+```{r}
+fnb <- fnb %>% 
+  pad(start_val = make_datetime(year = year(min_date),
+                                month = month(min_date),
+                                day= day(min_date),
+                                hour = 0),
+      end_val = make_datetime(year = year(max_date),
+                             month = month(max_date),
+                             day= day(max_date),
+                             hour = 23))
+```
+
+Karena transaksinya per jam, kita perlu mengubah tipe data menjadi jam dan setelah kita tahu bahwa Restoran hanya dibuka pada 10:00 hingga 22:00, dan kita perlu memfilter dataset dari jam 10:00 sampai 20:00 dan mengisi nilai NA dengan 0
+
+```{r}
+fnb_fin <- fnb %>% 
+  mutate(count_visitor = replace_na(count_visitor,0)) %>% 
+  filter(hour(datetime) >=10& hour(datetime) <=22)
+fnb_fin <- fnb_fin[-c(1:3),]
+```
+
+# 3. Sensionality Analisis 
+
+## 3.1 Make data time series 
+
+Mari buat FnB time series dan simpan sebagai fnb_ts
+
+```{r}
+fnb_ts <- ts(data=fnb_fin$count_visitor,start = c(1,4), frequency = 13)
+```
+
+## 3.2 Check Sensionality 
+
+Periksa data di simple plot 
+
+```{r}
+fnb_ts %>% 
+  autoplot()+
+  theme_minimal()
+```
+
+
+```{r}
+fnb_ts %>% 
+  tail(13*7*4) %>% 
+  stl(s.window = "periodic") %>% 
+  autoplot() 
+```
+```{r}
+fnb_single_decompose <- decompose(fnb_ts)
+```
+
+### 3.2.1 Multisensionality Time Series 
+
+```{r}
+fnb_msts <- msts(data = fnb_fin$count_visitor,seasonal.periods = c(13,13*7))
+```
+
+
+```{r}
+fnb_msts %>% 
+  tail(13*7*4) %>% 
+  stl(s.window = "periodic") %>% 
+  autoplot() 
+```
+
+```{r}
+fnb_double_decompose <- mstl(fnb_msts)
+```
+
+```{r}
+fnb_fin %>% 
+  mutate(
+    seasonal = fnb_single_decompose$seasonal,
+    hour = hour(datetime)
+  ) %>% 
+  distinct(hour, seasonal) %>% 
+  ggplot(mapping = aes(x = hour, y = seasonal)) +
+  geom_col() +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(10,22,1)) +
+  labs(
+    title = "Single Seasonality Plot"
+  )
+```
+
+
+
+```{r}
+as.data.frame(fnb_double_decompose) %>% 
+  mutate(datetime = fnb_fin$datetime) %>% 
+  mutate(
+    dow = wday(datetime, label = TRUE, abbr = FALSE),
+    hour = as.factor(hour(datetime))
+  ) %>% 
+  group_by(dow, hour) %>% 
+  summarise(seasonal = sum(Seasonal13 + Seasonal91)) %>% 
+  ggplot(mapping = aes(x = hour, y = seasonal)) +
+  geom_col(aes(fill = dow)) +
+  scale_fill_viridis_d(option = "plasma") +
+  theme_minimal() +
+  labs(
+    title = "Multiseasonality Plot"
+  )
+```
+
+
+
+# 4. Model Fitting and Evaluation 
+
+## 4.1 Cross Validation 
+
+Diperlukan Cross Validation sebelum melakukan time analisa
+
+
+### 4.1.1 Single Sensionality 
+
+```{r}
+ts_info(fnb_ts)
+```
+
+
+Diperlukan membagi data atau splitting antara **data train** dan **data_test**
+
+```{r}
+train_fnb_ts <- head(fnb_ts, n = length(fnb_ts)-13*7)
+test_fnb_ts <- tail(fnb_ts, n = 13*7)
+```
+
+
+secara default fungsi `HoltWinters()` akan mencari parameter smoothing yang menurutnya optimal.
+
+Forecasting dengan fungsi `forecast()` dan model evaluation menggunakan fungsi MAE 
+```{r}
+# modeling
+model_tes_ts <- HoltWinters(train_fnb_ts)
+
+# forecast
+forecast_tes_ts <- forecast(model_tes_ts, h = 13*7)
+
+# model evaluation
+MAE(y_pred = forecast_tes_ts$mean, y_true = test_fnb_ts)
+```
+memvisualisasikan jumlah pengunjung aktual vs perkiraan 
+```{r}
+test_forecast(actual = fnb_ts ,
+              forecast.obj = forecast_tes_ts,
+              train = train_fnb_ts,
+              test = test_fnb_ts)
+```
+
+```{r}
+model_arima_ts <- stlm(train_fnb_ts, method = "arima")
+
+# forecast
+forecast_arima_ts <- forecast(model_arima_ts, h=13*7)
+
+# model evaluation
+MAE(y_pred = forecast_arima_ts$mean, y_true = test_fnb_ts)
+```
+
+```{r}
+test_forecast(actual = fnb_ts ,
+              forecast.obj = forecast_arima_ts,
+              train = train_fnb_ts,
+              test = test_fnb_ts)
+```
+
+
+
+### 4.1.2 Multiple Sensionality 
+
+```{r}
+train_fnb_msts <- head(fnb_msts, n= length(fnb_msts)-(13*7)) 
+test_fnb_msts <- tail(fnb_msts, n=13*7)
+```
+
+
+### 4.1.3 Triple Exponensial Smooth Model 
+
+```{r}
+model_tes_msts <- HoltWinters(train_fnb_msts)
+```
+```{r}
+# forecast
+forecast_tes_msts <- forecast(model_tes_msts, h = 13*7)
+
+# model evaluation
+MAE(y_pred = forecast_tes_msts$mean, y_true = test_fnb_msts)
+```
+```{r}
+test_forecast(actual = fnb_msts ,
+              forecast.obj = forecast_tes_msts,
+              train = train_fnb_msts,
+              test = test_fnb_msts)
+```
+
+
+### 4.1.4 ARIMA Model 
+
+```{r}
+model_arima_msts <- stlm(train_fnb_msts, method = "arima")
+
+# forecast
+forecast_arima_msts <- forecast(model_arima_msts, h=13*7)
+
+# model evaluation
+MAE(y_pred = forecast_arima_msts$mean, y_true = test_fnb_msts)
+```
+```{r}
+test_forecast(actual = fnb_msts ,
+              forecast.obj = forecast_arima_msts,
+              train = train_fnb_msts,
+              test = test_fnb_msts)
+```
+# 5. Predicting Performance
+
+Mari kita coba mengimplementasikan ke data data-test.csv untuk hasil akhir dari model kita.
+
+```{r}
+test_data <- read.csv("data/data-test.csv")
+
+model_arima_test <- stlm(fnb_msts, method = "arima")
+
+# forecast
+forecast_arima_test <- forecast(model_arima_test, h=13*7)
+
+# insert the data into table
+test_data$visitor <- forecast_arima_test$mean
+write.csv(test_data,file = "submission-david.csv", row.names = F)
+
+head(test_data,3)
+```
+Kinerja model yang dihasilkan adalah 4,8 dari target 6. Artinya model kami cukup baik.
+
+```{r echo=FALSE}
+knitr::include_graphics("Check Performace.png")
+```
+
+
+
+# 6. Conculsion 
+
+Pengecekan asumsi dan summary dari result
+
+## 6.1 Auto corelation 
+
+Asumsi Autocorrelation, menggunakan fungsi Ljung-box 
+
+```{r}
+Box.test(model_arima_test$residuals, type = "Ljung-Box")
+```
+Hasil : p-value=0.9578 > 0.05 (alpha), maka dapat disimpulkan bahwa residual tidak memiliki autokorelasi.
+
+## 6.2 Normality of residuals
+
+```{r}
+shapiro.test(x = model_arima_test$residuals)
+```
+
+
+
+# Conculsion final 
+
+Karena nilai p lebih kecil dari 0,05, maka residu tidak terdistribusi secara normal. Perhatikan bahwa uji Shapiro hanya menguji penyimpangan distribusi residual dari normal dan bukan kinerja prakiraan, yang memburuk untuk prakiraan yang lebih lama. Jika kita ingin memperkirakan data yang lebih panjang, kita perlu menambahkan lebih banyak data untuk dimasukkan ke dalam model kita.
+
+Adapun yang terakhir, bisa kita lihat dari Analisis Musiman, kita menyimpulkan bahwa hari Sabtu pukul 20.00 atau 8 malam adalah pengunjung tertinggi ke restoran.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

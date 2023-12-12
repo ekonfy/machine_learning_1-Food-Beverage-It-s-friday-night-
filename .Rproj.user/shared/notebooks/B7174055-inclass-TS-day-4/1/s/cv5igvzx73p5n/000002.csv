@@ -1,0 +1,2 @@
+"0","air_decom <- decompose(AirPassengers, type = 'multiplicative')"
+"0","plot(air_decom)"

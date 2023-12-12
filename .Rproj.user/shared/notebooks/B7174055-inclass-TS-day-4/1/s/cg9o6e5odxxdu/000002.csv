@@ -1,0 +1,1 @@
+"0","air_auto <- auto.arima(air_train, seasonal = F)"

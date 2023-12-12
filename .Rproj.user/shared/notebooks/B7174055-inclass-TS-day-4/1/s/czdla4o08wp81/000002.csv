@@ -1,0 +1,2 @@
+"0","model_air_m <- HoltWinters(air_train_m, seasonal = ""multiplicative"")"
+"0","forecast_air_m <- forecast(model_air_m, h = 24)"

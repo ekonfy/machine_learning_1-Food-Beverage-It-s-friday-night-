@@ -1,0 +1,4 @@
+"0","no_auto_f <- forecast(no_auto, h = 8)"
+"0","no_arima1_f <- forecast(no_arima1, h = 8)"
+"0","no_arima2_f <- forecast(no_arima2, h = 8)"
+"0","no_arima3_f <- forecast(no_arima3, h = 8)"

@@ -1,0 +1,3 @@
+"0","# 8 tahun terakhir untuk data test, sisanya jadikan data train"
+"0","no_test <- tail(no_ts, 8)"
+"0","no_train <- head(no_ts, -8)"

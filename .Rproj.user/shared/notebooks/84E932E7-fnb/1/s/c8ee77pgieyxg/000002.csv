@@ -1,0 +1,3 @@
+"0","fnb <- fnb %>% "
+"0","  group_by(datetime) %>% "
+"0","  summarise(count_visitor = n_distinct(receipt_number))"

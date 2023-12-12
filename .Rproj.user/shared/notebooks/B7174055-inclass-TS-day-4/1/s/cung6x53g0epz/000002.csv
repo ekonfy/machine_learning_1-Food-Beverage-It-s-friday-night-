@@ -1,0 +1,7 @@
+"0","forecast_list <- list("
+"0","  ""ARIMA 011"" = no_auto_f,"
+"0","  ""ARIMA 312"" = no_arima1_f,"
+"0","  ""ARIMA 310"" = no_arima2_f,"
+"0","  ""ARIMA 012"" = no_arima3_f)"
+"0",""
+"0","compare_forecast(forecast_list, no_test)"

@@ -1,0 +1,4 @@
+"0","rain_ses <- HoltWinters(rain_train, "
+"0","                        beta= F , "
+"0","                        gamma = F, "
+"0","                        seasonal = ""additive"")"

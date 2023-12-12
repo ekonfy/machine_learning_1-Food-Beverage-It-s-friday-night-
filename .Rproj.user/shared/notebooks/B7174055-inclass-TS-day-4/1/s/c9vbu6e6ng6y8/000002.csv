@@ -1,0 +1,3 @@
+"0","co2_ts %>% "
+"0","  window(start = 1990, end = 2000) %>% "
+"0","  autoplot()"

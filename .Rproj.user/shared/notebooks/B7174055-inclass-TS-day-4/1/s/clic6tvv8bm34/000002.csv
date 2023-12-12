@@ -1,0 +1,5 @@
+"0","# gunakan fungsi dari package lubridate"
+"0","birth_clean <- birth %>% "
+"0","  mutate(date = ymd(date),"
+"0","         month = month(date, label = T))"
+"0","birth_clean"

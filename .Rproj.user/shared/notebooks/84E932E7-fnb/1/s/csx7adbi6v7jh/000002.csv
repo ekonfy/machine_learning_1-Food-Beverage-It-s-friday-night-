@@ -1,0 +1,2 @@
+"0","train_fnb_msts <- head(fnb_msts, n= length(fnb_msts)-(13*7)) "
+"0","test_fnb_msts <- tail(fnb_msts, n=13*7)"

@@ -1,0 +1,5 @@
+"0","no_ts %>% "
+"0","  autoplot(series = ""Actual"") +"
+"0","  autolayer(no_auto_f$mean, series = ""ARIMA(0,1,1)"") +"
+"0","  autolayer(no_arima1_f$mean, series = ""ARIMA(3,1,2)"") +"
+"0","  autolayer(no_arima2_f$mean, series = ""ARIMA(3,1,0)"")"

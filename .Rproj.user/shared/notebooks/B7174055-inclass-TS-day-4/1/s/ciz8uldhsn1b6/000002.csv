@@ -1,0 +1,5 @@
+"0","air_ts <- AirPassengers %>% "
+"0","  log()"
+"0",""
+"0","air_train <- head(air_ts, -24)"
+"0","air_test <- tail(air_ts,24)"

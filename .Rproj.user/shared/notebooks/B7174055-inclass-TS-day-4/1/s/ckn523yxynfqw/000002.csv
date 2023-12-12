@@ -1,0 +1,4 @@
+"0","# coba buat ulang object ts dari birth_clean tapi frequency = 4"
+"0","birth_ts2 <- ts(data = birth_clean$births,"
+"0","                start = 1946,"
+"0","                frequency = 4)"

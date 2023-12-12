@@ -1,0 +1,11 @@
+"0","fnb <- fnb %>% "
+"0","  pad(start_val = make_datetime(year = year(min_date),"
+"0","                                month = month(min_date),"
+"0","                                day= day(min_date),"
+"0","                                hour = 0),"
+"0","      end_val = make_datetime(year = year(max_date),"
+"0","                             month = month(max_date),"
+"0","                             day= day(max_date),"
+"0","                             hour = 23))"
+"2","pad applied on the interval: hour
+"

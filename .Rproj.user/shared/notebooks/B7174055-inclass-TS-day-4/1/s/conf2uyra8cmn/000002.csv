@@ -1,0 +1,3 @@
+"0","# membuat model dengan order p dan q nya asal"
+"0","# misal ARIMA(1,1,2)"
+"0","no_manual <- Arima(no_train, order = c(1,1,2))"

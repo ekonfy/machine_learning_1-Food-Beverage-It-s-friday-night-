@@ -1,0 +1,1 @@
+"0","forecast_air <- forecast(model_air, h = 24)"

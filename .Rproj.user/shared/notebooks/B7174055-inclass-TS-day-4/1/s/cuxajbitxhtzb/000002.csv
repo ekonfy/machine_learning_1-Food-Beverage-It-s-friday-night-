@@ -1,0 +1,7 @@
+"0","# 20 tahun terakhir untuk test"
+"0","rain_test <- rain_ts %>% "
+"0","  tail(20)"
+"0",""
+"0","# 80 tahun untuk train (sisanya)"
+"0","rain_train <- rain_ts %>% "
+"0","  head(80)"
